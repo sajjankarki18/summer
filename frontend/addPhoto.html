@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% extends 'home.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload an Image</title>
+</head>
+<body>
+    {% block content %}
+    <div class="container d-flex justify-content-center my-3">
+        <a href="{% url 'home' %}">
+            <button class="btn btn-outline-dark btn-sm">Home</button>
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <di class="card">
+                    <form  method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3 m-3">
+                            <label class="form-label">Enter a Description</label>
+                            <input required name="description" type="text" class="form-control" placeholder="Enter a description...">
+                        </div>
+
+                        <div class="mb-3 m-3">
+                            <label class="form-label">Select a category</label>
+                            <div class="d-flex align-items-center">
+                                <select name="category" class="form-select" aria-label="Default select example">
+                                    <option value="none">Select a category...</option>
+
+                                    {% for category in categories %}
+                                    <option value="{{category.id}}">
+                                        {{category.name}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 m-3">
+                            <label class="form-label">Enter a new category</label>
+                            <input name="new_category" type="text" class="form-control" placeholder="Enter a new category...">
+                        </div>
+
+                        <div class="mb-3 m-3">
+                            <label for="formFile" class="form-label">Default file input example</label>
+                            <input required name="image" class="form-control" type="file" id="formFile">
+                        </div>
+
+                        <button class="btn btn-outline-secondary btn-sm m-3">Upload</button>
+                    </form>
+                </di>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% extends 'main.html' %}
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+
+<body>
+    {% block content %}
+    <div class="container mt-3">
+        <a href="{% url 'home' %}"><button class="btn btn-outline-secondary btn-sm">Go Back</button></a>
+    </div>
+    <div class="container mt-4">
+        <div class="row card-shadow">
+            <div class="card">
+                <div class="m-3">
+                    <img style="width: 600px;" class="your-photo" src="{{ photos.image.url }}" alt="">
+                </div>
+                <div class="m-3">
+                    <p>
+                        {{ photos.description }}
+                        <a data-bs-placement="bottom" title="Download image" class="delete-link mx-2" href="{{ photos.image.url }}" download>
+                            <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-download"></i></button>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+</body>
+
+</html>

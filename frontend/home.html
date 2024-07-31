@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<div class="container d-flex justify-content-center mt-4">
+    <a href="{% url 'addPhoto' %}" class="me-2"><button class="btn btn-outline-secondary">Add a Photo +</button></a>
+    <div class="d-flex align-items-center">
+        <form method="GET" action="{% url 'home' %}">
+            {% csrf_token %}
+            <select name="category" class="form-select" aria-label="Default select example" onchange="this.form.submit()">
+                <option value="">All</option>
+                {% for category in categories %}
+                <option value="{{category.name}}" {% if category.name == selected_category %} selected {% endif %}>{{category.name}}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="photo-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px;">
+        {% for photo in photos %}
+        <div class="card card-shadow">
+            <img src="{{photo.imageURL}}" alt="" class="card-img-top" style="width: 100%; height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <p class="card-text text-muted">Category: {{photo.category}}</p>
+                <p class="card-text">{{photo.description}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="{% url 'photo' pk=photo.id %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="view photo" class="view-link">
+                            <button class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-view-list"></i>
+                            </button>
+                        </a>
+
+                        <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="delete photo" class="delete-link" href="{% url 'deletePhoto' photo.id %}">
+                            <button class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </a>
+                    </div>
+                    <small style="font-size: 12px;" class="text-muted">{{photo.date}}</small>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center empty-msg">No photos!</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
