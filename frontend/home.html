@@ -42,9 +42,9 @@
                     <small style="font-size: 12px;" class="text-muted">{{photo.date}}</small>
                 </div>
             </div>
+            {% empty %}
+            <p class="text-danger text-center">No photos!</p>
         </div>
-        {% empty %}
-        <p class="text-center empty-msg">No photos!</p>
         {% endfor %}
     </div>
 </div>

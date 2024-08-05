@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -29,4 +31,11 @@ class Photo(models.Model):
         return url    
     
     def __str__(self) -> str:
-        return self.description        
+        return self.description    
+    
+@receiver(post_delete, sender=Photo)
+def delete_category_if_no_photos(sender, instance, **kwargs):
+    category = instance.category
+    if category and not Photo.objects.filter(category=category).exists():
+        category.delete()
+        
